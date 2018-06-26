@@ -16,7 +16,7 @@
                         </div>
                         <div class="media-body">
                             <div class="o-folder__personDetail">
-                                <label v-if="person.name != ''">{{person.name}}</label>
+                                <label v-if="person.name != ''">{{person.firstName}} {{person.lastName}}</label>
                                 <label v-else>Unknown</label>
                                 <p>{{person.phoneNo}}</p>
                                 <span>{{person.time}}</span>
@@ -36,35 +36,28 @@
 
 <script>
     export default{
-        props:['searchAttr'],
+        props:['searchAttr','contactLog'],
         data(){
             return{
-                contactList:[
-                    {
-                        name:'Aravind',
-                        phoneNo:'+91-9876544672',
-                        time:'5 min'
-                    },
-                    {
-                        name:'Prakash',
-                        phoneNo:'+91-9213344672',
-                        time:'15 min'
-                    },
-                    {
-                        name:'Unknown',
-                        phoneNo:'+91-123123456',
-                        time:'9.15 AM'
-                    }
-                ]
+                contactList:''
+            }
+        },
+        created(){
+            this.contactList = this.contactLog
+        },
+        watch:{
+            contactLog(v){
+                this.contactList = v
             }
         },
         methods:{           
             onSelect(p){
                 let param = {
                      name:'contact',
-                    obj:p
+                     obj:p,
+                     isEdit:false
                 }
-                this.$emit('curentView',param)
+                //this.$emit('curentView',param)
             }
         }
     }

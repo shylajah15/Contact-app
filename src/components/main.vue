@@ -44,12 +44,12 @@
         methods:{
             showFolder(action){
                     this.currentFolderAction = action
+                    this.currentFolderDetailAction = ''
             },
             showCurrentDetailAction(action){
                 this.currentFolderDetailAction = action
             },
             showCallLog(action){
-                console.log(action)
                 this.currentAction = action
             }
         }

@@ -9,14 +9,14 @@
         </div>
         <div class="row">
             <div class="col-md-12" style="padding-right: 0px;">
-                <div class="o-folder__contactDetails" v-for="(person,index) in callLogList" :key="index" :class="{'active':person.isActive}" v-show="(searchAttr == '') || (person.name.toLowerCase().indexOf(searchAttr.toLowerCase()) != -1)" @click="onSelect(person)">
+                <div class="o-folder__contactDetails" v-for="(person,index) in callLogList" :key="index" :class="{'active':person.isActive}" v-show="(searchAttr == '') || (person.name.toLowerCase().indexOf(searchAttr.toLowerCase()) != -1)" @click="onSelect(person)" v-if="callLogList.length != 0">
                     <div class="media">
                         <div class="media-left media-middle">
                             <img src="~@/assets/person.png" alt="img" width="50" height="50">
                         </div>
                         <div class="media-body">
                             <div class="o-folder__personDetail">
-                                <label v-if="person.name != ''">{{person.name}}</label>
+                                <label v-if="person.name != ''">{{person.firstName}} {{person.lastName}}</label>
                                 <label v-else>Unknown</label>
                                 <p>{{person.phoneNo}}</p>
                                 <p>{{person.noOfCalls}}</p>
@@ -35,96 +35,27 @@
 
 <script>
     export default{
-        props:['searchAttr'],
+        props:['searchAttr','callLog'],
         data(){
             return{
-                callLogList:[
-                    {
-                        name:'Aravind',
-                        id:0,
-                        phoneNo:'+91-9876544672',
-                        time:'5 min',
-                        noOfCalls:'9 times',
-                        isActive:true,
-                        callLog:[
-                            {
-                                callType:'Outgoing Call',
-                                callDate:'Friday, 10th May 2019, 01.30 PM',
-                                callDuration:'1 Min 1 Sec'
-                            },
-                             {
-                                callType:'Missed Call',
-                                callDate:'Friday, 10th May 2019, 01.00 PM',
-                                callDuration:'0 Sec'
-                            },
-                             {
-                                callType:'Incoming Call',
-                                callDate:'Friday, 10th May 2019, 12.30 PM',
-                                callDuration:'5 Min 1 Sec'
-                            }
-                        ]
-                    },
-                    {
-                        name:'Prakash',
-                        id:1,
-                        phoneNo:'+91-9213344672',
-                        time:'15 min',
-                        noOfCalls:'2 times',
-                        isActive:false,
-                        callLog:[
-                            {
-                                callType:'Missed Call',
-                                callDate:'Friday, 10th May 2019, 01.30 PM',
-                                callDuration:'0 Sec'
-                            },
-                            {
-                                callType:'Outgoing Call',
-                                callDate:'Friday, 10th May 2019, 01.00 PM',
-                                callDuration:'1 Min 1 Sec'
-                            },
-                             {
-                                callType:'Incoming Call',
-                                callDate:'Friday, 10th May 2019, 12.30 PM',
-                                callDuration:'10 Mins 30 Secs'
-                            }
-                        ]
-                    },
-                    {
-                        name:'Unknown',
-                        id:2,
-                        phoneNo:'+91-123123456',
-                        time:'9.15 AM',
-                        noOfCalls:'9 times',
-                        isActive:false,
-                        callLog:[
-                            {
-                                callType:'Outgoing Call',
-                                callDate:'Friday, 10th May 2019, 01.30 PM',
-                                callDuration:'10 Mins 1 Sec'
-                            },
-                             {
-                                callType:'Missed Call',
-                                callDate:'Friday, 10th May 2019, 01.00 PM',
-                                callDuration:'0 Sec'
-                            },
-                             {
-                                callType:'Incoming Call',
-                                callDate:'Friday, 10th May 2019, 12.30 PM',
-                                callDuration:'15 Mins 5 Secs'
-                            }
-                        ]
-                    }
-                ]
+                callLogList:''
             }
         },
         created(){
+            this.callLogList = this.callLog
             this.onSelect(this.callLogList[0])
+        },
+         watch:{
+            callLog(v){
+                this.callLogList = v
+            }
         },
         methods:{            
             onSelect(p){
                 let param = {
                      name:'phone',
-                    obj:p
+                     obj:p,
+                     isEdit:false
                 }
                 this.callLogList.forEach((a)=>{
                     if(a.id == p.id)

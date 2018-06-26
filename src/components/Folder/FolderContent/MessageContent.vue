@@ -16,7 +16,7 @@
                         </div>
                         <div class="media-body">
                             <div class="o-folder__personDetail">
-                                <label>{{message.name}}</label>
+                                <label>{{message.firstName}} {{message.lastName}}</label>
                                 <span>{{message.time}}</span>
                                 <p>{{message.message}}</p>
                             </div>
@@ -31,39 +31,27 @@
 
 <script>
     export default{
-         props:['searchAttr'],
+         props:['searchAttr','messageLog'],
         data(){
             return{
-                messageList:[
-                    {
-                        name:'Aravind',
-                        message:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        time:'5 min',
-                        isActive:true,
-                        id:0,
-                    },
-                    {
-                        name:'Prakash',
-                        message:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        time:'15 min',
-                        isActive:false,
-                        id:1,
-                    },
-                    {
-                        name:'Unknown',
-                        message:'"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        time:'9.15 AM',
-                        isActive:false,
-                        id:2
-                    }
-                ]
+               messageList:''
+            }
+        },
+        created(){            
+            this.messageList = this.messageLog
+            this.onSelect(this.messageList[0])
+        },
+        watch:{
+            messageLog(v){
+                this.messageList = v
             }
         },
         methods:{           
             onSelect(p){
                 let param = {
                      name:'message',
-                    obj:p
+                     obj:p,
+                     isEdit:false
                 }
                  this.messageList.forEach((a)=>{
                     if(a.id == p.id)

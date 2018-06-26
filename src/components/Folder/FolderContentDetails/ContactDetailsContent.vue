@@ -1,14 +1,13 @@
 <template>
-    <transition v-if="contactObj.name == 'contact'">
-        <p>Contact Details</p>
-    </transition>
-    <transition v-else>
+    <transition>
        <div class="row">
            <div class="col-md-12">
                <div class="o-folderDetails__profile">
-                   <span class="o-folderDetails__profileCircle">
+                   <span class="o-folderDetails__profileCircle"  v-if="contactObj.isEdit == false">
                        <i class="fa fa-pencil"></i>
                    </span>
+                  <span v-else> <img src="~@/assets/person.png" alt="" width="150" height="150" >
+                   <i class="fa fa-pencil"></i></span>
                    <h3>PROFILE</h3>
                    <span class="o-folder--underline"></span>
                </div>
@@ -16,11 +15,11 @@
                    <div class="row">
                        <div class="col-md-12">
                            <div class="col-md-1">
-                                     
+                                <i class="fa fa-address-book"></i>
                            </div>
                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" placeholder="First name" v-model="newContact.firstName">
+                                    <input type="text" placeholder="First name" v-model="newContact.firstName" required>
                                 </div>
                            </div>
                            <div  class="col-md-1"></div>
@@ -38,7 +37,7 @@
                            </div>
                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Phone Number" v-model="newContact.phoneNumber">
+                                    <input type="text" placeholder="Phone Number" v-model="newContact.phoneNumber" required>
                                 </div>
                            </div>
                            <div  class="col-md-1"></div>
@@ -63,8 +62,8 @@
                    </div>  
                    <div class="row">
                        <div class="col-md-12 o-folder__btns">
-                               <a @click="save">Save</a>
-                               <a @click="discard">Discard</a>                  
+                               <button type="submit" @click="save">Save</button>
+                               <button @click="discard">Discard</button>                  
                        </div>
                    </div>       
                </div>
@@ -85,6 +84,15 @@
                     phoneNumber:''
                 }
             }
+        },
+        created(){
+            if(this.contactObj.isEdit == true){
+                 this.newContact.firstName = this.contactObj.obj.firstName
+                 this.newContact.lastName = this.contactObj.obj.lastName
+                 this.newContact.phoneNumber = this.contactObj.obj.phoneNo
+                 this.newContact.email = this.contactObj.obj.email
+            }
+            
         },
         computed:{
             hasDetails(){
@@ -159,7 +167,7 @@
         border-bottom: 1px solid #aaa;
         outline: none;
     }
-    .o-folderDetails__form .fa-phone,.o-folderDetails__form .fa-at {
+    .o-folderDetails__form .fa-phone,.o-folderDetails__form .fa-at,.o-folderDetails__form .fa-address-book  {
             font-size: 27px;
             transform: translateY(16px);
             position: absolute;
@@ -181,7 +189,7 @@
     .o-folderDetails__form .form-group{
         margin-top: 10px; 
     }
-    .o-folder__btns a{
+    .o-folder__btns button{
         display: inline-block;
         padding: 8px 52px;
         margin-right: 10px;
@@ -191,6 +199,7 @@
         margin-top: 10px;
         font-weight: 600;  
         text-decoration: none;
-        cursor: pointer;
+        outline: none;
+        border:1px solid #CFD2D7;
     }
 </style>

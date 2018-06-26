@@ -20,8 +20,8 @@
                 </div>              
             </div>
         </div>
-        <div class="o-callLog__details" :key="index">
-            <div class="row o-callLog__detailsRow" v-for="(log,index) in contactObj.obj.callLog">
+        <div class="o-callLog__details">
+            <div class="row o-callLog__detailsRow" v-for="(log,index) in contactObj.obj.callLog" :key="index"> 
                 <div class="col-md-12">
                     <div>
                         <i class="fa fa-reply"></i>
